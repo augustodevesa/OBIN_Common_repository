@@ -1,9 +1,9 @@
-OB Integration & gOB troubleshooting for NOVUM
+# OB Integration & gOB troubleshooting for NOVUM
 Technical assessment
 
 OB integration & gOB Task: TUGOSD-1434
 
-Index
+## Index
 
 References & Related Info
 Objective, assumptions & current situation
