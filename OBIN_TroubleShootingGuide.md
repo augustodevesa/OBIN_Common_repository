@@ -257,7 +257,8 @@ Other systems in NOVUM backend (on the border with the OB like CCS, SCS or Provi
 	
 Metrics are normally intended to detect problems at short notice. In order to troubleshoot a problem later on you will not use metrics but logs or CDRs.  So, it would make sense for us if we were monitoring metrics on a daily basis or most likely it would be intended for NOC.
 
-[Mid-term] We could open a track to analyze whether to complement (or replace) current gOB CDR & run log approach, generating LogEvents when a Call/SMS session ends. It could be done sending LogEvents via JSON being consumed in NOVUM backed by the corresponding service. That way we could take advantage of the existing troubleshooting, monitoring and BI infrastructure in NOVUM backend (see picture above) to:
+### [Mid-term] We could open a track to analyze whether to complement (or replace) current gOB CDR & run log approach, 
+Generating LogEvents when a Call/SMS session ends. It could be done sending LogEvents via JSON being consumed in NOVUM backed by the corresponding service. That way we could take advantage of the existing troubleshooting, monitoring and BI infrastructure in NOVUM backend (see picture above) to:
 
 Process gOB CDRs and run log info as part of the NOVUM BI via Kafka (Something could be do in Pentaho for example). CDR & runlog info would be stored in database.
 The backend service consuming this info could write the information received in a log which can be indexed to be visualized in Kibana. Actually, a wrapper or similar can be used to adapt the format if required.
