@@ -73,8 +73,9 @@ An idea could be reuse TU TRIPAS server where accessing via SSH we can upload lo
 Provisioning current troubleshooting solution
 
 ### Provisioning flow
+To have a look to the end to end please go to [provisioning flow]( http://www.websequencediagrams.com/files/render?link=VPDZDsby5MzNYUUQltVe) and component source type PoV
 
-! [Alt Provisioning Flow](https://drive.google.com/open?id=0Bz_PxXOmU13ZTHBQeVdXOFZvS2s)
+! [Alt Provisioning Flow](https://github.com/augustodevesa/OBIN_Common_repository/blob/master/Troubleshooting_Splunk_v3.jpg)
 
 Flow has 3 asynchronous stages. Best way is to correlate by MSISDN and look for BI events:
 
@@ -202,10 +203,6 @@ Example:
   "timestamp":"2014-10-17T20:26:48.000+01:00",   "_token":"unknown:2860308605:664",   "ob":"23411",
   "failure_reason":"Error while provisioning. Unknown reason"} // Irrelevant, always this (unless in UK)
 ~~~~
-
-#### Source of information
-To have a look to the end to end please go to [provisioning flow]( http://www.websequencediagrams.com/files/render?link=VPDZDsby5MzNYUUQltVe)
-
 
 
 ### Provisioning fault & performance alarms
