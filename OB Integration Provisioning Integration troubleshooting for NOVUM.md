@@ -294,16 +294,16 @@ Below is provided the High level architecture for metrics, monitoring, BI and CD
 
 [Metrix and Monitoring HLD Arq](https://github.com/augustodevesa/OBIN_Common_repository/blob/master/High%20level%20arch%20for%20metrics%2C%20monitoring%2C%20BI%20and%20CDRs.png)
 
-~~~
-2017/05 At this point in time the architecture above is being defined and there are no specific dashboards created for NOVUM B2C in ARG. By the time the service is commercially launched, the required metrics and logs must be available.
-~~~
-~~~~
-[Below an example of Grafana is provided](https://grafana.prd-mia.tuenti.io/dashboard/db/obprovisionservice?from=now-12h&to=now)
-~~~~
 
-~~~~
+`2017/05 At this point in time the architecture above is being defined and there are no specific dashboards created for NOVUM B2C in ARG. By the time the service is commercially launched, the required metrics and logs must be available.
+
+
+[Below an example of Grafana is provided](https://grafana.prd-mia.tuenti.io/dashboard/db/obprovisionservice?from=now-12h&to=now)
+
+
+
 [This is an example of Kibana is provided](https://kibana.prd-mia.tuenti.io/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-4h,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:namespace,negate:!f,value:movistar-ar),query:(match:(namespace:(query:movistar-ar,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:level,negate:!f,value:INFO),query:(match:(level:(query:INFO,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:serviceName,negate:!f,value:obprovision-service),query:(match:(serviceName:(query:obprovision-service,type:phrase))))),index:'logstash-*',interval:auto,query:(query_string:(analyze_wildcard:!t,query:'*')),sort:!('@timestamp',asc)))
-~~~~
+
 
 
 > Kibana is actually providing the web interface where we connect to, but the solution is  composed by a full suite of modules (https://www.elastic.co/products). Kibana is also > known as ELK (Elasticsearch, Logstash & Kibana) or EFK (Elasticsearch, FluentId & Kibana) which are analogous to the solution provided by Splunk. 
