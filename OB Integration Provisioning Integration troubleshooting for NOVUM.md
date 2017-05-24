@@ -26,15 +26,6 @@ OB integration & gOB Task:
 8. Conclusions
 
 # 1. References & Related Info
-[Troubleshooting_Splunk_v3](https://docs.google.com/presentation/d/1Zw3oi2DK-KgRUzCSwi6dmA3pIrgh1EBPtwVdueS6kTE/edit#slide=id.p28)
-[Dashboards: Splunk Dashboards of MIA](https://10.253.1.11/en-US/app/search/dashboards)
-[TUGo KPI](https://10.253.1.11/en-US/app/tugo/basic_monitoring?earliest=-15m&latest=now)
-[TUGo Subscription KPI](https://10.253.1.11/en-US/app/tugo/subscriptions?earliest=-7d%40h&latest=now)
-[TUGo Provisioning Monitoring](https://10.253.1.11/en-US/app/tugo/provision_argentina)
-[TUGo Provisioning Form](https://10.253.1.11/en-US/app/tugo/provision_stats?earliest=-4d%40d&latest=%40d&form.rel_time=-0h&form.ob_selector=72410)
-[Trouble Shooting](https://10.253.1.11/en-US/app/tugo/tu_go_comm_flows)
-[TUGo Diagnostics/Alerts](https://10.253.1.11/en-US/app/tugo/alerts) 
-[TUGo Diagnostics/Dashboards](https://10.253.1.11/en-US/app/tugo/dashboards)
 
 # 2. Objective, assumptions & current situation
 
@@ -234,33 +225,54 @@ Distribution of Delays:
 + Delay for synch activation failure after validation (GC1003 to GC1006 in Orejas): How long it takes provisioning process until users are synchronously rejected by OB (usually because user is not eligible)
 + Delay for asynch activation failure after validation (GC1003 to GC1006 in Manos): How long it takes provisioning process until users are asynchronously rejected by OB (by means of Act001)
 
------
------
-
-### Provided tools
-
-
 
 
 #### Splunk
 
-Actually Splunk is a troubleshooting tool not only for OB-related stuff but for all systems in the e2e chain of TU service. Splunk is indexing the logs coming from not only gOB but also rest of the e2e systems like gBE servers (call control, sms control, history control, notification control, push server…) or TUCore (BES, AAA, Freeswitch…). So splunk is actually the most powerful troubleshooting tool we have in TU. Providing not only mechanism to perform complex queries, but also dashboards for monitoring the service or for troubleshooting, reports, alerts… and so on. 
+Currently Splunk is the tool for troubleshooting e2e all TUGO Flows. In the case of Provisioning flow there are several dashboards, alerts and reports being use to monitor, and tackle provisioning incidence in all OBs where TU has been implemented.
 
-Splunk full set of features is out of the scope of this document, but to what gOB and OB integration concerns, Splunk provides the required mechanism to troubleshoot provisioning & lifecycle flows against the OB, Call/SMS Notification APIs (with or without rSDP), e2e Call/SMS flows, and provide dashboards to monitor them and so on... Below some examples of Splunk utilities are provided:
+Such is the strenght of the tool that is quite often the NOC detects an incidence not related to the TU but with the OB network early in advance before the OB is able to detect it. 
+
+This are the examples of the dashboards currently used.
++ [Troubleshooting_Splunk_v3](https://docs.google.com/presentation/d/1Zw3oi2DK-KgRUzCSwi6dmA3pIrgh1EBPtwVdueS6kTE/edit#slide=id.p28)
++ [Dashboards: Splunk Dashboards of MIA](https://10.253.1.11/en-US/app/search/dashboards)
++ [TUGo KPI](https://10.253.1.11/en-US/app/tugo/basic_monitoring?earliest=-15m&latest=now)
++ [TUGo Subscription KPI](https://10.253.1.11/en-US/app/tugo/subscriptions?earliest=-7d%40h&latest=now)
++ [TUGo Provisioning Monitoring](https://10.253.1.11/en-US/app/tugo/provision_argentina)
++ [TUGo Provisioning Form](https://10.253.1.11/en-US/app/tugo/provision_stats?earliest=-4d%40d&latest=%40d&form.rel_time=-0h&form.ob_selector=72410)
++ [Trouble Shooting](https://10.253.1.11/en-US/app/tugo/tu_go_comm_flows)
++ [TUGo Diagnostics/Alerts](https://10.253.1.11/en-US/app/tugo/alerts) 
++ [TUGo Diagnostics/Dashboards](https://10.253.1.11/en-US/app/tugo/dashboards)
 
 
-## Short-term troubleshooting solution for NOVUM
 
-The short-term troubleshooting solution for gOB & OB integration in NOVUM will be composed by:
+NOVUM Provisioning Flow 
+====================
+
+The provisioning flow specs is defined on the following [document](https://docs.google.com/document/d/1dkvbBnjqc0by130jircMHrWzpfqesGe9YM45lyczzBc/edit#)
+
+On the scope of OB integration team the significant share is the ObProv component behavior as Service interface with rSDP/mSDP/OB provisioning. 
+
+In order to track the events ObProv is going to send envents to BIEventsService and implement logstash to integrate them into ElasticSearchCore and therefore Kibana /Graphana UI.
+
+
+
+Troubleshooting solution for NOVUM
+============================
+
+
+The short-term troubleshooting solution for the provisioning flow in NOVUM will be composed by:
 
 ### Service CDRs
 
-Splunk (which will be available at least until EOY 2017).
+CDRs integration have to be transparent for the OBs. The CDRs of the new service must keep the same format and respect the same values on the fields that the OB use for their post processing.
 
-Metrics for OB Provisioning Service via Grafana.
-Logs for OB Provisioning Service via Kibana.
+Therefore any change CDRs collection and harvesting process would affect the OBs requesting new customizations developments.
+ In order to avoid this the NOVUM CDRs have to be accessible to the collections scripts running on TRIPAS.
+ 
+ Moreover, as well as gOB CDRs and Runlogs, service CDRs all hosted on the TRIPAS servers should be included on EFK to accessible through Kibana for trouble shooting purpose.
 
-It’s a MUST for NOVUM to gather CDR files (Call and SMS) from OB NGIN platform.   An Splunk forwarder is configured in order sent the data to Splunk where it will be indexed accordingly. An splunk forwarder provides:
+As wee as for gOB Runlogs & CDRs It’s a MUST for NOVUM to gather this files.
 
 + Tagging of metadata (source, sourcetype, and host)
  + Configurable buffering
@@ -269,111 +281,60 @@ It’s a MUST for NOVUM to gather CDR files (Call and SMS) from OB NGIN platform
  + Use of any available network ports
  + Running scripted inputs locally
 
-Forwarders usually do not index the data, but rather forward the data to a Splunk deployment that does the indexing and searching. Splunk deployment details for TU are out of the scope of this document.
-
-Current TU Splunk solution for gOB CDRs and runlogs will be reused for NOVUM.  However there are some improvements that may be applied:
-
-We could remove gOB and CDRs sampling rules (see [4]) for the OBs where NOVUM is commercially launched.
-We should review the gOB components being indexed in Splunk for each OB. For example, OSIP module is not indexed in ARG and we may want to have it since it can be correlated with E2E correlator (e.g. for RBT queries).
-
-	E.g. Indexing in ARG…
 
 
-Since the OB integration and gOB solution is mostly shared by TU and NOVUM, Splunk can be still used in the short-term to check NOVUM related stuff. For example to check rSDP issues, NGIN issues or any other problem related to flows based on UNICA APIs… which in many cases could be common for TU and NOVUM. However, in the short-term we should be able to use NOVUM metrics and logs available in Grafana and Kibana respectively. Below is provided the High level architecture for metrics, monitoring, BI and CDRs in NOVUM: 
+Since the OB integration and gOB solution is mostly shared by TU and NOVUM, Splunk can be still used in the short-term to check NOVUM related stuff. For example to check rSDP issues, NGIN issues or any other problem related to flows based on UNICA APIs… which in many cases could be common for TU and NOVUM. However, in the short-term we should be able to use NOVUM metrics and logs available in Grafana and Kibana respectively. 
 
 
-Source: https://www.draw.io/#G0B2Rh3dIZy7jrMFRKTW8yR2JvTlU
+### Metrics and Logs for NOVUM
+
+Metrics for OB Provisioning Service are going to be able via Grafana. Logs for OB Provisioning Service via Kibana.
+
+Below is provided the High level architecture for metrics, monitoring, BI and CDRs in NOVUM: 
+
+[Metrix and Monitoring HLD Arq](https://github.com/augustodevesa/OBIN_Common_repository/blob/master/High%20level%20arch%20for%20metrics%2C%20monitoring%2C%20BI%20and%20CDRs.png)
 
 ~~~
 2017/05 At this point in time the architecture above is being defined and there are no specific dashboards created for NOVUM B2C in ARG. By the time the service is commercially launched, the required metrics and logs must be available.
 ~~~
+~~~~
+[Below an example of Grafana is provided](https://grafana.prd-mia.tuenti.io/dashboard/db/obprovisionservice?from=now-12h&to=now)
+~~~~
 
-Below an example of Grafana is provided (e.g. from NOVUM ARG B2B):
+~~~~
+[This is an example of Kibana is provided](https://kibana.prd-mia.tuenti.io/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-4h,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:namespace,negate:!f,value:movistar-ar),query:(match:(namespace:(query:movistar-ar,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:level,negate:!f,value:INFO),query:(match:(level:(query:INFO,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:serviceName,negate:!f,value:obprovision-service),query:(match:(serviceName:(query:obprovision-service,type:phrase))))),index:'logstash-*',interval:auto,query:(query_string:(analyze_wildcard:!t,query:'*')),sort:!('@timestamp',asc)))
+~~~~
 
 
-
-Below an example of Kibana is provided:
-
-
-
-Kibana is actually providing the web interface where we connect to, but the solution is composed by a full suite of modules (https://www.elastic.co/products). Kibana is also known as ELK (Elasticsearch, Logstash & Kibana) or EFK (Elasticsearch, FluentId & Kibana) which are analogous to the solution provided by Splunk. 
+> Kibana is actually providing the web interface where we connect to, but the solution is  composed by a full suite of modules (https://www.elastic.co/products). Kibana is also > known as ELK (Elasticsearch, Logstash & Kibana) or EFK (Elasticsearch, FluentId & Kibana) which are analogous to the solution provided by Splunk. 
 Mid/long-term troubleshooting solution evolution for NOVUM
 
-### As mid-term and long-term evolutions, the following tracks should be analysed:
 
-[Mid-term] We should work on having our own dashboards and searches (or request adaptations for the existing ones at NOVUM B2C ARG Commercial Launch) in Grafana/Kibana. Basically considering the relevant information from the point of view of the integration with the OB or gOB. Metrics and logs from CCS, SCS or OB Provisioning service are really useful since those elements have direct interface with the OB and gOB. We could measure or check the status of:
+### BI CDRs 
 
-+ Provisioning Flow.
-+ rSDP (when it applies).
-+ Call/SMS Notification APIs performance.
-+ OB UNICA APIs performance (oProv, User Context, Notification API)...
-+ OB User life-cycle (suspensions, deactivations from OB…)
+Old BI CDRs are no longer be needed as BI integration over 4 platform is being done by TU and OB BI teams.
 
-[Mid-term] Since Splunk will be no longer available at some point in time, as mid-term evolution will be required to handle gOB CDR and run log files via Kibana. **For doing so, Tripas server must be configured accordingly in order to forward the files for being indexed and queryable from Kibana. Most likely configuring Beats or Logstash to feed up Elasticsearch engine and visualize the data from Kibana.**
 
-It would be required to define the way the information is going to be indexed. In case of ELK, it is based on a key-value approach and we would have to work in the definition of those keys.
+Conciliation Procedure
+------------------------------
 
- 
+Due to the changes on the provisioning flow and the different DDBB involved a whole new conciliacion procedure is going to be needed.
 
-We should consider the main tools we are using in Splunk now for TU, and try to replicate them and improve them in Kibana. A really useful Splunk dashboard for example is the “Call Investigations”. We could try to create something similar in Kibana for us to have an easy way to check what happens for and specific call or SMS session in NOVUM.
+If it's posible some of the rules could be reused but must be reviewed as the impact could be absolutely different.
 
-Now, for TU, we have Splunk dashboards differentiated per OB and per flow (e.g. incoming call) and we may need to generate something similar in NOVUM for the gOB and OB specifics. 
 
-### [Long-term] We could open a track to analyze whether to generate metrics from gOB being sent in real time to NOVUM backend as other systems do. However, first we need to:
-
-+ Validate if it is technically feasible.
-gOB is developed in C++. Confirm if the required Prometheus or Graphite libraries are available.
-Metrics are sent in real time, the impact on the VPN bandwidth should be checked too.
-gOB is deployed in SEE boards, but the connectivity with the NGIN is open with the FEP boards. It may be required a metrics aggregator in FEP (or any other solution) to overcome this problem.
-...
-We may ask Huawei if they support a Metrics approach in the NGIN platform.
-Validate whether if it makes sense.
-¿What would be the benefit?
-¿Does it provide useful info with respect the one we already have by other means (CDRs, runlogs…)?
-Other systems in NOVUM backend (on the border with the OB like CCS, SCS or Provisioning) already generates metrics and EventLogs (CDRs). ¿We would provide value with gOB metrics?
-¿Would someone use this metrics?
-...
-+ Validate cost-benefit balance.
-	
-Metrics are normally intended to detect problems at short notice. In order to troubleshoot a problem later on you will not use metrics but logs or CDRs.  So, it would make sense for us if we were monitoring metrics on a daily basis or most likely it would be intended for NOC.
-
-[Mid-term] We could open a track to analyze whether to complement (or replace) current gOB CDR & run log approach, generating LogEvents when a Call/SMS session ends. It could be done sending LogEvents via JSON being consumed in NOVUM backed by the corresponding service. That way we could take advantage of the existing troubleshooting, monitoring and BI infrastructure in NOVUM backend (see picture above) to:
-
-Process gOB CDRs and run log info as part of the NOVUM BI via Kafka (Something could be do in Pentaho for example). CDR & runlog info would be stored in database.
-The backend service consuming this info could write the information received in a log which can be indexed to be visualized in Kibana. Actually, a wrapper or similar can be used to adapt the format if required.
-But again, we should first:
-
-+ Validate if it is technically feasible.
-Sending JSON CDRs via HTTP from gOB should not be a problem when rSDP is bypassed (no TPS limitation and need to send this info via CAll/SMS Notification API). 
-We could use same connectivity already open for Call/SMS Notification API (between FEPs on NGIN and F5 in Miami) to send this info.
-We should consider the impact on the VPN bandwidth for sending this LogEvents. However we don’t need to send an HTTP request every time a Call/SMS session is closed. We could actually implement a gOB handler to merge information coming from multiple sessions, to compress all the info and to apply retry policies in case it is needed. BW usage can be optimized. gOB can also optimized the amount of information provided with respect current CDR and run logs which are not optimized in that sense.
-F5 should be able to route those LogEvents to right service in NOVUM backend.
-...
-
-+ Validate whether if it makes sense.
-¿What would be the benefit?
-We already have current gOB CDRs. Would it replace them? Or complement them?
-¿Would BI use this LogEvents?
-…
-
-At first sight, this option looks more than reasonable and a great improvement with respect current solution for several reasons:
-
-This option would remove current dependencies with Huawei and the OB.
-This solution would be available to use from day 0, as soon as gOB is deployed. So, it can be used in Telco Integration as well and will be available of course at commercial launch. Current approach is really difficult to implement due to the dependencies with the OB and NGIn platform.
-The solution is based on JSON over HTTP which is a really flexible approach and a highly optimizable solution in term of BW consumption.
-The main concerns is the impact of this option on NGIN capacity, and the impact on the BW consumption.
- 
-+ Validate cost-benefit balance.
 
 ## Conclusions & Next Steps
 
-In the short-term the troubleshooting solution will be basically the same applied for TU, but also taking advantage of the metrics, logs and event generated by other system such as CCS, SCS or OB provisioning which will also provide very valuable information about the OB integration related stuff.
-We should provide feedback on how to consume the information from those services or create our own dashboards with the relevant info from gOB & OB integration perspective as mid-term evolution... for doing so, we should acquire some minimal knowledge of how Kibana and/or Grafana works. For the short-term, we will have to live (most likely) with the metrics and dashboards initially available.
-For the short-term we should have a look at Splunk sampling rules to see if we can soft them (or directly remove them) for those OBs where NOVUM is commercial. And we should validate if we are indexing all the relevant gOB components in Splunk.
-For the short-term we should have a look at Voipmonitor dashboards to see if makes sense to create new ones for NOVUM.
-With the changes included in gOB 2.0 for the E2E Correlator, all the flows being handled by gOB including provisioning and Auth API and including gOB components such as OSIP can be properly correlated and troubleshooted. So, there is no need to change gOB logic to meet any information gap for NOVUM.
-For the mid-term we should work on having current gOB CDRs and run log files (stored in Tripas Server) indexed in Kibana to replace current functionalities provided by splunk. At some in time Splunk will be no longer available (most likely).
-The previous item could be not required if we decide to implement the LogEvent approach based on JSON over HTTP in gOB side. If this option is finally implemented, and it is implemented before Splunk is turned off, we could not longer require current gOB CDR and run logs files in Tripas Server and rely directly on the LogEvents sent from gOB via HTTP. 
+In the shortterm, we could still use Splunk dashboards and metrics by readapt them to the new provisioning flow. A short project is going to be needed for so. 
+The way of working with the NOC could also be reused 
+
+In the mediumterm, the dashboads and metrics from splunk should be moved to kibana / graphana
+
+In long run, the action protocol for the NOC has to be rebuild.
+
+On behalf of Service Managment Ivan Fridman and Rodrigo Da Silve are rebuilding the operations protocol in order to deliver the NOC and internally and end to end mnitoring and supervising view  of the service.
+
 
 
 
