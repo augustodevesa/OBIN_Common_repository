@@ -74,6 +74,8 @@ Provisioning current troubleshooting solution
 
 ### Provisioning flow
 
+! [Alt Provisioning Flow](https://drive.google.com/open?id=0Bz_PxXOmU13ZTHBQeVdXOFZvS2s)
+
 Flow has 3 asynchronous stages. Best way is to correlate by MSISDN and look for BI events:
 
 POST users/register, from App, reaching  API. Logs GC1001 or GC1002 event in BI
