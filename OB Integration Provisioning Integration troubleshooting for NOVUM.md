@@ -288,6 +288,20 @@ Since the OB integration and gOB solution is mostly shared by TU and NOVUM, Splu
 
 ### Metrics and Logs for NOVUM
 
+As described on the Tech PID: Novum OB Provisioning document the Metrics to monitor are
++ Number of events from rSDP
+	+ By action, success and failure_reason
+	+ Number of responses returned
++ Number of incoming provision requests from Subscription service
++ Number of events forwarded to SubscriptionsService
+	+ By action, permanent/transient error
++ Count of response codes/timeouts to external APIs.
++ Histograms for delays in requests to external components (APIs, DB…)
+
+
+
+
+
 Metrics for OB Provisioning Service are going to be able via Grafana. Logs for OB Provisioning Service via Kibana.
 
 Below is provided the High level architecture for metrics, monitoring, BI and CDRs in NOVUM: 
@@ -308,6 +322,63 @@ Below is provided the High level architecture for metrics, monitoring, BI and CD
 
 > Kibana is actually providing the web interface where we connect to, but the solution is  composed by a full suite of modules (https://www.elastic.co/products). Kibana is also > known as ELK (Elasticsearch, Logstash & Kibana) or EFK (Elasticsearch, FluentId & Kibana) which are analogous to the solution provided by Splunk. 
 Mid/long-term troubleshooting solution evolution for NOVUM
+
+We should be able to get this type of metrics for Novum  (metrics section)
+
++ Activation typically takes between 10 and 30 seconds. Failures are usually under 10s
+
+
++ Compared to other OBs, ratio of activation failures is relatively low, but it’s frequent to see peaks in failures due to transient errors
+
+
++ Aggregated results for last 20 days:
+
+
+result | failure_reason | % 
+Activated | - | 96.31
+Failed | SVR1000:Generic Server Error | 1.70
+Failed | SVC4006: Subscriber Not Elig | 1.58
+Failed | 1208 | 0.30
+Failed |403-SVC1022-Overlapping subs | 0.10
+Failed |SVR1008:Timeout processing r | 0.01
+
+We’ll need to map failure reasons to statuses notification.
+Events received from OB (30 days):
++ ActXXXX events refer to Novum/Tugo Service.
++ OBXXXX events refer to whole OB service.
+
+event\_type | event\_name | action | success | failure\_reason |  n\_events | unique_users
+OB0003 | User Status Changed | Suspended | 0 | Error while provisioning. Un | 9796 | 9624
+Act0001 | Process Concluded | Activation | true | 0 | 9785 | 9739
+
+
+Responses to Failure at step RegisterObUser (sync response to ActivateService in OB)
+
+ob | reason | n\_responses | %_ob | t
+ar | 403-SVC1022-Overlapping subscriptions Already existing. Subscription Identifiers are...  | 117 | 99.2 | 118
+
+
+Statuses in TU when certain event was received
+Some unexpected transitions might happen.
+
+event\_from\_ob | ACTIVE | DELETED | DELETING | PENDING | SUSPENDED
+Argentina: Activation Completed | 22 | 4 | |  7789
+Argentina: Activation Failed | 11 | 13 | |  951 |  
+Argentina: Deactivation Completed
+
+
+
+
+
+# The scope of gOB on the provisioning flow 
+
+Keep current interfaces available for TU product:
++ Start/Stop Call Notification.
++ Start/Stop SMS Notification.
+Add new interface to be able to gather current subscription:
++ Get Call Notification status.
++ Get Sms Notification status.
+
 
 
 ### BI CDRs 
