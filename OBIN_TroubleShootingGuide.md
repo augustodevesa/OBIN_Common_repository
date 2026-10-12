@@ -2,7 +2,7 @@
 OB Integration & gOB troubleshooting for NOVUM
 Technical assessment
 
-OB integration & gOB Task: TUGOSD-1434
+OB integration & gOB Task: <ticket-interno>
 
 Index
 
@@ -300,7 +300,7 @@ The previous item could be not required if we decide to implement the LogEvent a
 # OB Integration & gOB troubleshooting for NOVUM
 Technical assessment
 
-OB integration & gOB Task: TUGOSD-1434
+OB integration & gOB Task: <ticket-interno>
 
 ## Index
 

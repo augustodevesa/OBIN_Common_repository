@@ -235,14 +235,14 @@ Such is the strenght of the tool that is quite often the NOC detects an incidenc
 
 This are the examples of the dashboards currently used.
 + [Troubleshooting_Splunk_v3](https://docs.google.com/presentation/d/1Zw3oi2DK-KgRUzCSwi6dmA3pIrgh1EBPtwVdueS6kTE/edit#slide=id.p28)
-+ [Dashboards: Splunk Dashboards of MIA](https://10.253.1.11/en-US/app/search/dashboards)
-+ [TUGo KPI](https://10.253.1.11/en-US/app/tugo/basic_monitoring?earliest=-15m&latest=now)
-+ [TUGo Subscription KPI](https://10.253.1.11/en-US/app/tugo/subscriptions?earliest=-7d%40h&latest=now)
-+ [TUGo Provisioning Monitoring](https://10.253.1.11/en-US/app/tugo/provision_argentina)
-+ [TUGo Provisioning Form](https://10.253.1.11/en-US/app/tugo/provision_stats?earliest=-4d%40d&latest=%40d&form.rel_time=-0h&form.ob_selector=72410)
-+ [Trouble Shooting](https://10.253.1.11/en-US/app/tugo/tu_go_comm_flows)
-+ [TUGo Diagnostics/Alerts](https://10.253.1.11/en-US/app/tugo/alerts) 
-+ [TUGo Diagnostics/Dashboards](https://10.253.1.11/en-US/app/tugo/dashboards)
++ [Dashboards: Splunk Dashboards of MIA](https://<host-interno>/en-US/app/search/dashboards)
++ [TUGo KPI](https://<host-interno>/en-US/app/tugo/basic_monitoring?earliest=-15m&latest=now)
++ [TUGo Subscription KPI](https://<host-interno>/en-US/app/tugo/subscriptions?earliest=-7d%40h&latest=now)
++ [TUGo Provisioning Monitoring](https://<host-interno>/en-US/app/tugo/provision_argentina)
++ [TUGo Provisioning Form](https://<host-interno>/en-US/app/tugo/provision_stats?earliest=-4d%40d&latest=%40d&form.rel_time=-0h&form.ob_selector=72410)
++ [Trouble Shooting](https://<host-interno>/en-US/app/tugo/tu_go_comm_flows)
++ [TUGo Diagnostics/Alerts](https://<host-interno>/en-US/app/tugo/alerts) 
++ [TUGo Diagnostics/Dashboards](https://<host-interno>/en-US/app/tugo/dashboards)
 
 
 
@@ -312,11 +312,11 @@ Below is provided the High level architecture for metrics, monitoring, BI and CD
 `2017/05 At this point in time the architecture above is being defined and there are no specific dashboards created for NOVUM B2C in ARG. By the time the service is commercially launched, the required metrics and logs must be available.
 
 
-[Below an example of Grafana is provided](https://grafana.prd-mia.tuenti.io/dashboard/db/obprovisionservice?from=now-12h&to=now)
+[Below an example of Grafana is provided](https://<host-interno>/dashboard/db/obprovisionservice?from=now-12h&to=now)
 
 
 
-[This is an example of Kibana is provided](https://kibana.prd-mia.tuenti.io/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-4h,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:namespace,negate:!f,value:movistar-ar),query:(match:(namespace:(query:movistar-ar,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:level,negate:!f,value:INFO),query:(match:(level:(query:INFO,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:serviceName,negate:!f,value:obprovision-service),query:(match:(serviceName:(query:obprovision-service,type:phrase))))),index:'logstash-*',interval:auto,query:(query_string:(analyze_wildcard:!t,query:'*')),sort:!('@timestamp',asc)))
+[This is an example of Kibana is provided](https://<host-interno>/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-4h,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:namespace,negate:!f,value:movistar-ar),query:(match:(namespace:(query:movistar-ar,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:level,negate:!f,value:INFO),query:(match:(level:(query:INFO,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'logstash-*',key:serviceName,negate:!f,value:obprovision-service),query:(match:(serviceName:(query:obprovision-service,type:phrase))))),index:'logstash-*',interval:auto,query:(query_string:(analyze_wildcard:!t,query:'*')),sort:!('@timestamp',asc)))
 
 
 
